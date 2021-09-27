@@ -1,0 +1,33 @@
+## API planning
+
+-> Auth
+-> Foods
+-> Restaurents
+-> Menu
+-> Order
+-> Payments -- razorpay
+-> Reviews
+-> User
+-> Images
+
+
+
+bcryptjs
+salt
+  -> if salt is 8 it will be encrypted 8 time to make it secured 
+  the more the number the performation will be decresed they consume more cpu 
+
+JWT TOKEN
+    jsonwebtoken 
+
+MONOGODB 
+  create a cluster and connect it 
+  create .env file and replace the password and myfirstdatabase
+  install .env
+  npm i dotenv
+
+
+
+
+
+  
