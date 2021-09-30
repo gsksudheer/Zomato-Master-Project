@@ -6,24 +6,33 @@ import { FiSearch } from "react-icons/fi";
 
 //Components
 import SignIn from "../Auth/SignIn";
+import SignUp from "../Auth/SignUp";
 
-const MobileNavbar = () => {
+const MobileNavbar = ({ SignIn, SignUp }) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     return (   
         <div className="fixed shadow-md bg-white flex items-center justify-between px-3 py-2 w-full  lg:hidden">
             <div className="w-28 px-2">
                 <img src="https://b.zmtcdn.com/web_assets/b40b97e677bc7b2ca77c58c61db266fe1603954218.png" alt="" className="w-full h-full" />
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 relative">
                 <button className="bg-zred-400  p-2 text-white rounded-full">Use App</button>
-                <span className="border border-gray-500 p-2 text-zred-400  rounded-full">
-                    <FaUserAlt />
-                </span>
+                    <span onClick={() => setIsDropdownOpen((prev)=> !prev)} className="border border-gray-500 p-2 text-zred-400  rounded-full">
+                        <FaUserAlt />
+                    </span>
+                   {isDropdownOpen && (
+                        <div className="absolute flex flex-col gap-2 bg-white shadow-xl py-2 my-1 w-full top-12 -right-3 text-md">
+                        <button onClick={SignIn}>Sign In</button>
+                        <button onClick={SignUp}>Sign Up</button>
+                        
+                    </div>
+                   )}
             </div>
         </div>      
     );
 };
 
-const PcNavbar = () => {
+const PcNavbar = ({ SignIn, SignUp }) => {
     return (
         <> 
         <div className="hidden lg:inline container mx-auto px-40 flex items-center pt-3 pb-4">
@@ -45,10 +54,10 @@ const PcNavbar = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-6 ml-28">
-                    <button className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
+                    <button onClick={SignIn} className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
                         Login
                     </button>
-                    <button className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
+                    <button onClick={SignUp} className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
                         Signup
                     </button>        
                 </div>
@@ -58,16 +67,19 @@ const PcNavbar = () => {
     );
 };
 
-
 const Navbar = () => {
     const [openSignIn, setOpenSignIn] = useState(false);
     const [openSignUp, setOpenSignUp] = useState(false);
+
+    const openSignInModal = () => setOpenSignIn(true);
+    const openSignUpModal = () => setOpenSignUp(true);
     return (
          <>
-            <SignIn IsOpen={openSignIn} setIsOpen={setOpenSignIn} />
+            <SignIn isOpen={openSignIn} setIsOpen={setOpenSignIn} />
+            <SignUp isOpen={openSignUp} setIsOpen={setOpenSignUp} />
             <nav className="flex w-full bg-white">     
-                <MobileNavbar SignIn={{ openSignIn, setOpenSignIn }}/> {/* mobile and tablet Navbar */}
-                <PcNavbar /> 
+                <MobileNavbar SignIn={ openSignInModal } SignUp={ openSignUpModal }/> {/* mobile and tablet Navbar */}
+                <PcNavbar SignIn={ openSignInModal } SignUp={ openSignUpModal } /> 
             </nav>            
          </>
     );

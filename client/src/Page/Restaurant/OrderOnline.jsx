@@ -21,7 +21,7 @@ const OrderOnline = () => {
                    <MenuListContainer />
                    <MenuListContainer />
                </aside>
-               <div className="w-full md:w-4/5 mx-4">
+               <div className="w-full md:w-4/5 md:mx-4">
                    <h2 className="text-2xl font-bold my-3">Order Online</h2>
                    <h4 className="flex items-center gap-2 font-light text-gray-500 my-6">
                        <AiOutlineCompass /> Live Track Your Order | <BiTimeFive /> 30 min
@@ -54,9 +54,9 @@ const OrderOnline = () => {
                             
                         ]} 
                         />
-                         <FoodList
-                        title = "cakes"
-                        items = {[
+                        <FoodList
+                            title = "cakes"
+                            items = {[
                             {
                                 image:"https://b.zmtcdn.com/data/dish_photos/6f9/50f7fada8615cd36f029f7e8365456f9.jpg?fit=around|130:130&crop=130:130;*,*",
                                 title:"Love by Chocolate Sundae",

@@ -5,12 +5,13 @@ const ImageGrid = (props)  =>  {
     return(
         <>
             <div>
-                    <div className="w-full h-60 md:hidden mt-14"> 
+                    <div className="w-full h-60 md:hidden mt-14"> {/* mobile Device */}
                         <img src={props.images[0]}
                         alt="Food"
                         className="w-full h-full object-cover rounded-sm"
                         />
                     </div>
+                    {/* lg devices */}
                     <div className="hidden md:flex gap-1 w-full h-80 lg:h-96 md:mt-20 lg:mt-5">
                         <div className="w-7/12 h-full overflow-hidden"> 
                             <img src={props.images[0]}
