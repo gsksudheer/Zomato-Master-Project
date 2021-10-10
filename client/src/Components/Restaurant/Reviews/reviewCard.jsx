@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { GoStar } from "react-icons/go";
+import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
 
-const ReviewCard  = () => {
+import { getUser } from "../../../Redux/Reducer/User/user.action";
+
+const ReviewCard  = (props) => {
+    const [user, setUser] = useState({});
+    const dispatch = useDispatch();
+    useEffect(getUser(props.user)).then((data) => {
+        setUser(data.payload.user.user.user)
+    }, []);
     return (
         <>
         <div className="my-4 flex flex-col gap-4 pb-4 border-b border-gray-100">
@@ -13,7 +22,7 @@ const ReviewCard  = () => {
                          className="w-full h-full rounded-full"/>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <h5 className="text-lg font-semibold">SudheerKumar</h5>
+                        <h5 className="text-lg font-semibold">{user?.fullname}</h5>
                         <h6 className="text-md text-gray-500">43 reviews &bull; 17 Followers</h6>
                     </div>
                 </div>                
@@ -22,11 +31,11 @@ const ReviewCard  = () => {
             <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1 bg-zred-600 px-1 text-white rounded-lg">4 <GoStar /></span>
-                    <h5  className="text-md font-regular">DELIVERY </h5>
-                    <small className="text-gray-500">5 days ago</small>
+                    <h5  className="text-md font-regular">{props.isRestaurantReview ? "Dinning" : "Delivery" }</h5>
+                    <small className="text-gray-500">{dayjs(props.createdAt).format("DD MM YYYY")} days ago</small>
                 </div>
                 <div>
-                    <p className="text-gray-600">We are not satisfied as the delivery was delayed. Due to which the pizza was cold as ice</p>
+                    <p className="text-gray-600">{props.reviewText}</p>
                 </div>
             </div>
         </div>

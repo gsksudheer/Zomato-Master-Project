@@ -16,13 +16,15 @@ import routeConfig from "./Config/route.config";
 import Auth from "./API/Auth";
 import Restaurant from "./API/Restaurant";
 import Food from "./API/Food";
-import Order from "./API/orders";
-import Reviews from "./API/reviews";
+import Image from "./API/Images";
+import User from "./API/User"
+//import Order from "./API/orders";
+//import Reviews from "./API/reviews";
 
 
 //Database Connection
 import ConnectDB from "./database/connection";
-import passport from "passport";
+
 
 const zomato = express();
 
@@ -40,7 +42,10 @@ routeConfig(passport);
 zomato.use("/auth", Auth);
 zomato.use("/restaurant", Restaurant);
 zomato.use("/food", Food);
-
+zomato.use("/image", Image);
+//zomato.use("/orders", Order);
+//zomato.use("/reviews", Reviews);
+zomato.use("/user", User);
 
 zomato.get("/", (req, res) => res.json({message:"setup successfull"}));
 
@@ -49,5 +54,3 @@ zomato.listen(3000, () =>
  .then(() => console.log("Server is Running"))
  .catch(() => console.log("Server is running but database connection failed"))
 );
-
-

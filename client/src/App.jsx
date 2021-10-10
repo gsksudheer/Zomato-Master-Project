@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 //Import HOC
 import HomeLayoutHoc from "./HOC/Home.Hoc";
 import RestaurantLayoutHoc from "./HOC/Restaurant.Hoc";
+import CheckoutLayoutHoc from "./HOC/Checkout.Hoc";
 
 //Component
 import Temp from "./Components/Temp";
@@ -14,11 +15,11 @@ import OrderOnline from "./Page/Restaurant/OrderOnline";
 import Reviews from "./Page/Restaurant/Reviews";
 import Menu from "./Page/Restaurant/Menu";
 import Photos from "./Page/Restaurant/Photos";
-
+import Checkout from "./Page/Checkout";
+import RedirectRestaurant from "./Page/Restaurant/Redirect";
 //React-Slick css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 
 function App() {
   return (
@@ -30,6 +31,11 @@ function App() {
     <Route path="/restaurant/:id" exact>
       <Redirect to="/restaurant/:id/overview"/>
     </Route>
+    {/* 
+    <Route path="/restaurant/:id" exact comonent={RedirectRestaurant}/>
+       <Redirect to="/restaurant/:id/overview"/>
+    </Route>
+    */}
 
       <HomeLayoutHoc path="/:type" exact component={Home} />
 
@@ -39,7 +45,9 @@ function App() {
       <RestaurantLayoutHoc path="/restaurant/:id/reviews" exact component={Reviews} />
       <RestaurantLayoutHoc path="/restaurant/:id/menu" exact component={Menu} />
       <RestaurantLayoutHoc path="/restaurant/:id/photos" exact component={Photos} />
+      <CheckoutLayoutHoc path="/checkout/:id" exact component={Checkout} />
     </>
+    
   );
 };
 

@@ -109,13 +109,13 @@ Parmas      : none
 Access      : Public
 Method      : GET
 */
-
+/* 
 Router.get("/google/callback", passport("google", {failureRedirect: "/"}), 
     (req, res) => {
         return res.redirect(
             `https.localhost:3000/google.${req.session.passport.user.token}`
         );
-    })
+    }) */
 export default Router;
 
 

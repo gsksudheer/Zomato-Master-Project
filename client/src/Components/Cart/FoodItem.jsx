@@ -16,9 +16,10 @@ const FoodItem = (props) => {
                     </div>
                 </div>
             </div>
-            <hr className="border my-1"/>
+            <hr className="border-b my-1"/>
         </>
     );
 };
 
 export default FoodItem;
+  

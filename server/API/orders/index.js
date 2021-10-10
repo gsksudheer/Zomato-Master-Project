@@ -1,9 +1,9 @@
-import express, { Router } from "express";
+import express from "express";
 import passport from "passport";
 //database Model
 import { OrderModel } from "../../database/menu";
 
-const Route = express.Router();
+const Router = express.Router();
 
 /* 
 Route       : /

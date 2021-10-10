@@ -1,31 +1,63 @@
-import express, { Router } from "express";
+import express from "express";
+import passport, { session } from "passport";
 
 //database Model
-import { UserModel } from "../../database/menu";
+import { UserModel } from "../../database/allModels";
 
-const Route = express.Router();
+const Router = express.Router();
 
 /* 
-Route       : /:_id
+Route       : /
 Description : Get user data
 Parmas      : _id
 Body        : None
 Access      : Public
 Method      : GET
 */
-Router.get("/:_id", async (req, res) => {
+/* Router.get("/", passport.authenticate("jwt"), async (req, res) => {
     try {
-       const { _id } = req.params;
-       const getUser = await UserModel.findById(_id);
-       if(!getUser) {
-        return res.json({error : "user Not Found"});
-       }
-
-        return res.json({ user : getUser});
+      const { email, fullname, phoneNumber, address } =
+        req.session.passport.user._doc;
+  
+      return res.json({ user: { email, fullname, phoneNumber, address } });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }); */
+  
+Router.get("/", passport.authenticate("jwt"), async (req, res) => {
+    console.log("USer");
+    try {
+       const  { email, fullname, phoneNumber, address } = req.session.passport.user._doc;
+       console.log(session.passport.user);
+        return res.json({ user : { email, fullname, phoneNumber, address }});
     } catch (error) {
         return res.status(500).json({error: error.message});
     }
 });
+
+
+/* 
+Route       : /:id
+Description : Get user data
+Parmas      : _id
+Body        : None
+Access      : Public
+Method      : GET
+passport.authenticate("jwt"),
+*/
+
+Router.get("/",  async (req, res) => {
+    try {
+        const user =  await UserModel.findById(req.params._id);
+        const { fullname } = user;
+
+      return res.json({ user: { fullname} });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }); 
+  
 
 /* 
 Route       : /:_update

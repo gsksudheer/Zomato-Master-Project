@@ -7,16 +7,16 @@ import { RestaurentModel } from "../../database/allModels";
 import { ValidateRestaurentCity,  ValidateRestaurentSearchString } from "../../validation/restaurant"
 import { ValidateRestaurentId } from "../../validation/food";
 
-const Route = express.Router();
+const Router = express.Router();
 
 /* 
 Route       : /r
 Description : get all Restaurent based on city
 Parmas      : id
 Access      : Public
-Method      : Post
+Method      : GET
 */
-Route.get("/r/:id", async(req, res) => {
+Router.get("/r/:id", async(req, res) => {
     try {
         await ValidateRestaurentCity(req.query);
         const { city } = req.query;
@@ -68,7 +68,7 @@ Router.get("/:_id", async (req, res) => {
         await ValidateRestaurentId(req.params);
         const {_id } = req.params;
         
-        const restaurants = await RestaurentModel.findOne(_id);
+        const restaurants = await RestaurentModel.findById(_id);
         if(!restaurants) {
             return res.status(404).json({ error : "Restaurant not Found"});
         }
@@ -78,4 +78,4 @@ Router.get("/:_id", async (req, res) => {
     }
 });
 
-export default Route;
+export default Router;
