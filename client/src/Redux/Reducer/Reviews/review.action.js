@@ -21,6 +21,7 @@ export  const postReviews = (reviewData) => async (dispatch) => {
         await axios({
              method: "POST",
              url: `https://localhost:3000/reviews/new`,
+             data: {reviewData},
          });
  
          return dispatch({ type: POST_REVIEW, payload: reviewData });

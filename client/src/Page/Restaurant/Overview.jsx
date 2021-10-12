@@ -18,7 +18,7 @@ import { getReviews } from '../../Redux/Reducer/Reviews/review.action';
 
 
 const Overview = () => {
-    const [menuImage, setMenuImage] = useState({ image: [],  })
+    const [menuImage, setMenuImage] = useState({ image: [] })
     const [Reviews, setReviews] = useState([])
     const { id } = useParams();
 
@@ -34,13 +34,14 @@ const Overview = () => {
                 data.payload.image.images.map(({ location }) => {
                     images.push(location)
                 });
-                setMenuImage(data.payload.image);
+                setMenuImage(images);
             });
             dispatch(getReviews(reduxState?._id)).then((data) => {
                 setReviews(data.payload.reviews);
             });
        }
     }, []);
+
     const settings = {
         arrows: true,
         infinite: true,

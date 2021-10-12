@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import {FaUserAlt} from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { MdArrowDropDown } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import gravatar from "gravatar";
 
+//Components
+import SignIn from "../Auth/SignIn";
+import SignUp from "../Auth/SignUp";
 
-const MobileNavbar = () => {
+const MobileNavbar = ({ SignIn, SignUp }) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const reduxState = useSelector((globalStore) => global.user.user);
+
     return (   
         <div className="fixed shadow-md bg-white flex items-center justify-between px-3 py-2 w-full  lg:hidden">
            <div className="flex gap-2">
@@ -17,15 +25,43 @@ const MobileNavbar = () => {
            </div>
             <div className="flex items-center gap-3">
                 <button className="bg-zred-400  p-2 text-white rounded-full">Use App</button>
-                <span className="border border-gray-500 p-2 text-zred-400  rounded-full">
-                    <FaUserAlt />
-                </span>
+                {reduxState?.user?.fullname ? (
+                   <>
+                    <div onClick={() => setIsDropdownOpen((prev)=> !prev)} className="border border-gray-500 p-2 text-zred-400 w-20 h-20 rounded-full">
+                       <img 
+                        src={gravatar.url(reduxState?.user?.email)}
+                        alt={reduxState?.user?.email}
+                        className="w-full h-full rounded-full object-cover"
+                       />
+                    </div>
+                   {isDropdownOpen && (
+                    <div className="absolute flex flex-col gap-2 bg-white shadow-xl py-2 my-1 w-full top-12 -right-3 text-md">
+                        <button>Sign Out</button>                       
+                    </div>
+                   )}
+                   </>
+                   ) : (
+                   <>
+                    <span onClick={() => setIsDropdownOpen((prev)=> !prev)} className="border border-gray-500 p-2 text-zred-400  rounded-full">
+                        <FaUserAlt />
+                    </span>
+                   {isDropdownOpen && (
+                    <div className="absolute flex flex-col gap-2 bg-white shadow-xl py-2 my-1 w-full top-12 -right-3 text-md">
+                        <button onClick={SignIn}>Sign In</button>
+                        <button onClick={SignUp}>Sign Up</button>                       
+                    </div>
+                   )}
+                   </>)
+                   }
             </div>
         </div>      
     );
 };
 
-const PcNavbar = () => {
+const PcNavbar = ({ SignIn, SignUp }) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+    const reduxState = useSelector((globalStore) => global.user.user);
+    
     return (
         <> 
         <div className="hidden lg:inline container mx-auto px-40 flex items-center pb-4 mt-4">
@@ -46,28 +82,55 @@ const PcNavbar = () => {
                         <input type="text" placeholder="Search for restaurent, cusine or a dish" className="w-full focus:outline-none px-3" />
                     </div>
                 </div>
-                <div className="flex items-center gap-6 ml-28">
-                    <button className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
-                        Login
-                    </button>
-                    <button className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
-                        Signup
-                    </button>        
-                </div>
+                {reduxState?.user?.fullname ? (
+                     <>
+                        <div onClick={() => setIsDropdownOpen((prev)=> !prev)} className="border border-gray-500 p-2 text-zred-400 w-20 h-20 rounded-full">
+                            <img 
+                            src={gravatar.url(reduxState?.user?.email)}
+                            alt={reduxState?.user?.email}
+                            className="w-full h-full rounded-full object-cover"
+                            />
+                        </div>
+                        {isDropdownOpen && (
+                            <div className="absolute flex flex-col gap-2 bg-white shadow-xl py-2 my-1 w-full top-12 -right-3 text-md">
+                                <button>Sign Out</button>                       
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <>
+                     <div className="flex items-center gap-6 ml-28">
+                        <button onClick={SignIn} className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
+                           Login
+                        </button>
+                        <button onClick={SignUp} className="text-gray-400 font-light text-lg text-xl hover:text-gray-800">
+                            Signup
+                        </button>        
+                     </div>
+                    </>
+                )
+                }
             </div>
             </div>
         </>
     );
 };
 
-
 const RestaurantNavbar = () => {
+    const [openSignIn, setOpenSignIn] = useState(false);
+    const [openSignUp, setOpenSignUp] = useState(false);
+
+    const openSignInModal = () => setOpenSignIn(true);
+    const openSignUpModal = () => setOpenSignUp(true);
+
     return (
          <>
-             <nav className="flex w-full bg-white">     
-                     <MobileNavbar /> {/* mobile and tablet Navbar */}
-                     <PcNavbar /> 
-             </nav>            
+            <SignIn isOpen={openSignIn} setIsOpen={setOpenSignIn} />
+            <SignUp isOpen={openSignUp} setIsOpen={setOpenSignUp} />
+            <nav className="flex w-full bg-white">     
+               <MobileNavbar SignIn={ openSignInModal } SignUp={ openSignUpModal }/> {/* mobile and tablet Navbar */}
+               <PcNavbar SignIn={ openSignInModal } SignUp={ openSignUpModal } /> 
+            </nav>            
          </>
     );
  };

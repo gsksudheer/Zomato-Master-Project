@@ -1,7 +1,7 @@
-import { GET_USER, AUTH_USER } from "./Image.type"; 
+import { GET_USER, SELF, CLEAR_USER } from "./Image.type"; 
 
 const INITIAL_STATE = {
-    user: [],
+    user: {},
 };
 
 const UserReducer = (state = INITIAL_STATE, action) => {
@@ -9,13 +9,14 @@ const UserReducer = (state = INITIAL_STATE, action) => {
         case GET_USER:
             return {
                 ...state,
-                user: action.payload,
             };
-         case AUTH_USER:
+        case SELF:
             return {
                 ...state,
                 user: action.payload,
             };
+         case CLEAR_USER:
+            return {};
         default:
             return {
                 ...state,

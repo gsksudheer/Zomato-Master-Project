@@ -1,32 +1,88 @@
 import axios from "axios";
 
 //Redux type
-import { GET_Food, GET_Food_List } from "./Auth.type"; 
+import { SIGNIN, SIGNUP, GOOGLE_AUTH, SIGNOUT} from "./Auth.type"; 
 
-export  const getFood = (foodId) => async (dispatch) => {
+//Redux actions
+import { getMySelf, clearUser } from "../User/user.action";
+
+export  const signIn = (userData) => async (dispatch) => {
    try {
-       const food = await axios({
-            method: "GET",
-            url: `https://localhost:3000/food/${foodId}`,
+       const User = await axios({
+            method: "POST",
+            url: `https://localhost:3000/auth/signin`,
+            data: { credentials : userData },
         });
 
-        return dispatch({ type: GET_Food, payload: food.data });
+        getMySelf();
+
+        localStorage.setItem("zomatoUser", JSON.stringify({ token: User.data.token }));
+
+        return dispatch({ type: SIGNIN, payload: User.data });
    } catch (error) {
        return dispatch({ type: "ERROR", payload: error });
    }
 };
 
-export  const getFoodList = (menuId) => async (dispatch) => {
+
+export  const googleAuth = (token) => async (dispatch) => {
     try {
-        const Menu = await axios({
-             method: "GET",
-             url: `https://localhost:3000/menu/list/${menuId}`,
-         });
+        localStorage.setItem("zomatoUser", JSON.stringify({ token: User.data.token }));
+
+        getMySelf();
  
-         return dispatch({ type: GET_Food_List, payload: Menu.data });
+        return dispatch({ type: GOOGLE_AUTH, payload: {} });
     } catch (error) {
         return dispatch({ type: "ERROR", payload: error });
     }
-};
+ };
+
+export  const signOut = () => async (dispatch) => {
+    try {
+        localStorage.removeItem("zomatoUser");
+        clearUser();
+        window.location.href = "http://localhost:3000/Delivery";
+        
+        return dispatch({ type: SIGNOUT, payload: User.data });
+    } catch (error) {
+        return dispatch({ type: "ERROR", payload: error });
+    }
+ };
+
+
+export  const signUp = (userData) => async (dispatch) => {
+    try {
+        const User = await axios({
+             method: "POST",
+             url: `https://localhost:3000/auth/sigup`,
+             data: { credentials : userData },
+         });
+         getMySelf();
+ 
+         localStorage.setItem("zomatoUser", JSON.stringify({ token: User.data.token }));
+ 
+         return dispatch({ type: SIGNUP, payload: User.data });
+    } catch (error) {
+        return dispatch({ type: "ERROR", payload: error });
+    }
+ };
+
+/* 
+ export  const googleAuth = (userData) => async (dispatch) => {
+    try {
+        const User = await axios({
+             method: "POST",
+             url: `https://localhost:3000/auth/`,
+             data: { credentials : userData },
+         });
+ 
+         localStorage.setItem("zomatoUser", JSON.stringify({ token: User.data.token }));
+ 
+         return dispatch({ type: googleAuth, payload: User.data });
+    } catch (error) {
+        return dispatch({ type: "ERROR", payload: error });
+    }
+ }; */
+
  
  

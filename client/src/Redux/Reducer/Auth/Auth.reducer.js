@@ -1,21 +1,22 @@
-import { GET_Food_List } from "./Auth.type"; 
+import { SIGNIN, SIGNUP } from "./Auth.type"; 
 
-const INITIAL_STATE = {
-    FoodList: [],
-};
+const INITIAL_STATE = {};
 
-const FoodReducer = (state = INITIAL_STATE, action) => {
+const AuthReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case GET_Food_List:
+        case SIGNIN:
             return {
                 ...state,
-                FoodList: action.payload,
             };
-        
+        case SIGNUP :
+            return {
+                ...state,
+            };
         default:
             return {
                 ...state,
             };
     }
 };
-export default FoodReducer;
+
+export default AuthReducer;

@@ -5,16 +5,16 @@ import Rating from "react-rating-stars-component";
 import ReviewModel from "../../Restaurant/Reviews/ReviewModel"
 
 const AddReviewCard = () => {
-    
-    const handleRating = (value) => console.log(value);
     const [isOpen, setIsOpen] = useState(false);
+    const [reiewData, setReviewData] = useState();
+    //const handleRating = (value) => console.log(value);
 
     function openModal() {
         if(!localStorage.zomatoUser) {
             return alert("please signin to post a reviw");
         }
         setIsOpen(true)
-      }
+    };
 
     return (
         <>
