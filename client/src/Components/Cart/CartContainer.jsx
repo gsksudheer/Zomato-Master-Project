@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import {
-    IoMdArrowDropdown,
     IoMdArrowDropright,
     IoMdArrowDropup,
 } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 //Components
 import FoodItem from "./FoodItem";
 
 //Redux actinos
 import { getCart } from "../../Redux/Reducer/Cart/Cart.action";
-import { MdAccountCircle } from "react-icons/md";
-
 
 const CartSm = ({toggle}) => {
     const reduxState = useSelector((global) =>  global.cart.cart );
+    const history = useHistory();
+
+    const continueToCheckout = () => history.push("/checkout/orders")
+
     return (
         <>
         <div className="md:hidden flex items-center justify-between container px-2 mx-auto border-t border-gray-100">
@@ -28,7 +30,7 @@ const CartSm = ({toggle}) => {
                     ₹{reduxState.reduce((acc, curVal) => acc.totalPrice + curVal.totalPrice, { totalPrice: 0 } ).totalPrice } <sub>(plus tax)</sub>
                 </h4>
             </div>
-            <button className="bg-zred-400 text-white text-lg px-6 py-1 rounded-lg flex items-center justify-center gap-2">
+            <button onClick={continueToCheckout} className="bg-zred-400 text-white text-lg px-6 py-1 rounded-lg flex items-center justify-center gap-2">
                 Continue <IoMdArrowDropright />
             </button>
         </div>
@@ -38,6 +40,10 @@ const CartSm = ({toggle}) => {
 
 const CartLg = ({toggle}) => {
     const reduxState = useSelector((global) =>  global.cart.cart );
+    const history = useHistory();
+
+    const continueToCheckout = () => history.push("/checkout/orders")
+
     return (
         <>
           <div className="hidden md:flex items-center justify-between container lg:px-40 md:px-4 mx-auto">
@@ -49,7 +55,7 @@ const CartLg = ({toggle}) => {
                 <h4 className="text-lg font-semibold">
                     Subtotal: ₹429.59 
                 </h4>
-                <button className="bg-zred-400 text-white text-lg px-6 py-1 rounded-lg flex items-center gap-2">
+                <button onClick={continueToCheckout} className="bg-zred-400 text-white text-lg px-6 py-1 rounded-lg flex items-center gap-2">
                     Continue <IoMdArrowDropright />
                 </button>
             </div>
@@ -79,14 +85,9 @@ const CartConatainer = () => {
                     </div>
                     <hr className="my-2"/>
                     <div className="flex flex-col gap-2">
-                    {
-                       reduxState.map((food) => {
-                        <FoodItem 
-                         key={food._id} 
-                         {...food}
-                        />
-                       })
-                   }
+                    {reduxState.map((food) => {
+                        <FoodItem  key={food._id} {...food} />
+                    })}
                     </div>
                 </div> 
         )}
